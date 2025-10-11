@@ -26,10 +26,44 @@ Tuliskan ringkasan teori (3–5 poin) yang mendasari percobaan.
 ---
 
 ## Langkah Praktikum
-1. Langkah-langkah yang dilakukan.  
-2. Perintah yang dijalankan.  
-3. File dan kode yang dibuat.  
-4. Commit message yang digunakan.
+1. **Setup Environment**
+   - Pastikan Linux (Ubuntu/WSL) sudah terinstal.
+   - Pastikan Git sudah dikonfigurasi dengan benar:
+     ```bash
+     git config --global user.name "Nama Anda"
+     git config --global user.email "email@contoh.com"
+     ```
+2. **Diskusi Konsep**
+   - Baca materi pengantar tentang komponen OS.
+   - Identifikasi komponen yang ada pada Linux/Windows/Android.
+
+3. **Eksperimen Dasar**
+   Jalankan perintah berikut di terminal:
+   ```bash
+   uname -a
+   whoami
+   lsmod | head
+   dmesg | head
+   ```
+   Catat dan analisis modul kernel yang tampil.
+
+4. **Membuat Diagram Arsitektur**
+   - Buat diagram hubungan antara *User → System Call → Kernel → Hardware.*
+   - Gunakan **draw.io** atau **Mermaid**.
+   - Simpan hasilnya di:
+     ```
+     praktikum/week1-intro-arsitektur-os/screenshots/diagram-os.png
+     ```
+5. **Penulisan Laporan**
+   - Tuliskan hasil pengamatan, analisis, dan kesimpulan ke dalam `laporan.md`.
+   - Tambahkan screenshot hasil terminal ke folder `screenshots/`.
+
+6. **Commit & Push**
+   ```bash
+   git add .
+   git commit -m "Minggu 1 - Arsitektur Sistem Operasi dan Kernel"
+   git push origin main
+   ```
 
 ---
 
@@ -60,11 +94,11 @@ Tuliskan 2–3 poin kesimpulan dari praktikum ini.
 ---
 
 ## Quiz
-1. [Pertanyaan 1]  
+1. Sebutkan tiga fungsi utama sistem operasi.
    **Jawaban:**  
-2. [Pertanyaan 2]  
+3. Jelaskan perbedaan antara kernel mode dan user mode.
    **Jawaban:**  
-3. [Pertanyaan 3]  
+4. Sebutkan contoh OS dengan arsitektur monolithic dan microkernel. 
    **Jawaban:**  
 
 ---
