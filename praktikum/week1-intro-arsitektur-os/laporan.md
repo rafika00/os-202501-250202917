@@ -1,20 +1,22 @@
 
-# Laporan Praktikum Minggu [X]
-Topik: [Tuliskan judul topik, misalnya "Arsitektur Sistem Operasi dan Kernel"]
+# Laporan Praktikum Minggu 1
+Topik: Arsitektur Sistem Operasi dan Kernel
 
 ---
 
 ## Identitas
-- **Nama**  : [Nama Mahasiswa]  
-- **NIM**   : [NIM Mahasiswa]  
-- **Kelas** : [Kelas]
+- **Nama**  : Rafika Rahma
+- **NIM**   : 250202917 
+- **Kelas** : 1 IKRA
 
 ---
 
 ## Tujuan
-Tuliskan tujuan praktikum minggu ini.  
-Contoh:  
-> Mahasiswa mampu menjelaskan fungsi utama sistem operasi dan peran kernel serta system call.
+Tujuan praktikum minggu ini yaitu :
+> - Mahasiswa mampu menjelaskan peran sistem operasi dalam arsitektur komputer.
+> - Mahasiswa mampu mengidentifikasi komponen utama OS (kernel, system call, device driver, file system).
+> - Mahasiswa mampu membandingkan model arsitektur OS (monolithic, layered, microkernel).
+> - Mahasiswa mampu menggambarkan diagram sederhana arsitektur OS menggunakan alat bantu digital (draw.io / mermaid).
 
 ---
 
@@ -42,9 +44,7 @@ dmesg | head
 ---
 
 ## Hasil Eksekusi
-Sertakan screenshot hasil percobaan atau diagram:
-![Screenshot hasil](screenshots/example.png)
-
+![alt text](<screenshots/ss tugas1.png>)
 ---
 
 ## Analisis
