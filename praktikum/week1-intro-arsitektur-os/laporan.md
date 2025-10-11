@@ -91,7 +91,7 @@ dmesg | head
      Linux cs-580648964653-default 6.6.105+ #1 SMP PREEMPT_DYNAMIC Sat Sep 27 08:48:45 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
      ```
      - Linux: Sistem operasi berbasis Linux.
-     - cs-580648964653-default: Hostname mesin virtual (VM) kamu.
+     - cs-580648964653-default: Hostname mesin virtual (VM).
      - 6.6.105+: Versi kernel Linux.
      - #1 SMP PREEMPT_DYNAMIC: Build informasi:
        - SMP = Symmetric MultiProcessing, artinya kernel mendukung beberapa CPU/core.
@@ -104,7 +104,7 @@ dmesg | head
     ```bash
     rafikarahma007
     ```
-    Menampilkan nama pengguna saat ini yang sedang login di shell. Dalam hal ini, kamu adalah pengguna rafikarahma007.
+    Menampilkan nama pengguna saat ini yang sedang login di shell. 
 
   **3. lsmod | head**
   ```bash
@@ -141,12 +141,15 @@ dmesg | head
     ```bash
     [mem 0x0000000000000000-0x0000000000000fff] reserved
     ```
-   Artinya: Bagian memori fisik dari 0x00000000 sampai 0x00000fff tidak bisa digunakan (reserved).
+   Bagian memori fisik dari 0x00000000 sampai 0x00000fff tidak bisa digunakan (reserved).
 
-- Hubungkan hasil dengan teori (fungsi kernel, system call, arsitektur OS).  
+- Hubungan hasil teori dengan fungsi kernel, system call, arsitektur OS :
+  
+Berdasarkan hasil percobaan menggunakan perintah terminal Linux, terlihat bahwa kernel berfungsi sebagai pengatur utama komunikasi antara perangkat hardware dan software, dan memberikan layanan sistem melalui system call. Arsitektur sistem operasi yang terlihat adalah modular monolithic kernel, di mana modul dapat dimuat secara dinamis, dan ada pemisahan ruang kerja antara user space dan kernel space.
+
 - Apa perbedaan hasil di lingkungan OS berbeda (Linux vs Windows)?
-
-
+  
+Linux memberikan akses yang lebih transparan dan terbuka terhadap fungsi kernel, sistem call, serta informasi perangkat keras, sedangkan Windows membatasi akses tersebut untuk menjaga stabilitas dan keamanan, dengan lebih mengandalkan antarmuka grafis dan tool khusus.
 
 ---
 
@@ -157,18 +160,40 @@ Tuliskan 2–3 poin kesimpulan dari praktikum ini.
 
 ## Quiz
 1. Sebutkan tiga fungsi utama sistem operasi.
-   **Jawaban:**  
-3. Jelaskan perbedaan antara kernel mode dan user mode.
-   **Jawaban:**  
-4. Sebutkan contoh OS dengan arsitektur monolithic dan microkernel. 
-   **Jawaban:**  
-
+   
+   **Jawaban:**
+   - Manajemen Sumber Daya : Mengatur CPU, memori, disk, dan I/O agar digunakan secara efisien
+   - Manajemen Proses : Menjalankan dan mengatur banyak proses secara simultan
+   - Antarmuka & Sistem File : Memberikan UI/CLI serta mengelola file dan direktori
+   
+2. Jelaskan perbedaan antara kernel mode dan user mode.
+   
+   **Jawaban:**
+   Dalam sistem operasi, kernel mode memungkinkan sistem berjalan dengan akses penuh terhadap semua sumber daya komputer, seperti memori, perangkat keras, dan CPU digunakan oleh kernel dan driver. kesalahan di kernel mode dapat menyebabkan seluruh sistem crash. Sementara itu, user mode digunakan oleh aplikasi pengguna dengan akses terbatas. Aplikasi tidak bisa langsung mengakses perangkat keras, dan harus menggunakan system call untuk berkomunikasi dengan kernel. Pemisahan ini penting untuk menjaga keamanan dan stabilitas sistem.
+   
+3. Sebutkan contoh OS dengan arsitektur monolithic dan microkernel.
+   
+   **Jawaban:**
+   - Monolithic Kernel
+     - Linux (Ubuntu, Fedora, Debian, dll.)
+     - MS-DOS
+     - Unix klasik (seperti BSD awal)
+     - Solaris (versi lama)
+     - MacOS klasik (pra-Mac OS X)
+    
+   - Microkernel
+     - Minix (sering dipakai untuk pendidikan)
+     - QNX (digunakan dalam sistem tertanam/embedded seperti mobil)
+     - L4 (berbagai varian, digunakan di riset dan sistem ringan)
+     - GNU Hurd (proyek dari GNU dengan microkernel Mach)
+     - macOS (modern) dan iOS → berbasis XNU kernel (hybrid dengan elemen microkernel dari Mach)
+     
 ---
 
 ## Refleksi Diri
 Tuliskan secara singkat:
-- Apa bagian yang paling menantang minggu ini?  
-- Bagaimana cara Anda mengatasinya?  
+- Bagian yang paling menantang bagi saya di minggu ini yaitu belajar mengumpulkan tugas di github karena bagi saya ini adalah hal baru.
+- Cara mengatasi hal tersebut saya berusaha mencari tutorial-tutorial di internet misalnya YouTube, Google dll., dan saya juga berdikusi dengan teman.
 
 ---
 
