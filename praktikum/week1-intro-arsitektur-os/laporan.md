@@ -21,7 +21,7 @@ Tujuan praktikum minggu ini yaitu :
 ---
 
 ## Dasar Teori
-Tuliskan ringkasan teori (3–5 poin) yang mendasari percobaan.
+Sistem operasi adalah perangkat lunak inti yang mengelola perangkat keras komputer dan menyediakan layanan bagi program aplikasi. Fungsi utamanya meliputi pengelolaan proses, memori, perangkat keras, dan sistem file. Sistem operasi juga menyediakan antarmuka bagi pengguna untuk berinteraksi dengan komputer. Contoh sistem operasi meliputi Windows, Linux, dan macOS.
 
 ---
 
@@ -64,17 +64,16 @@ Tuliskan ringkasan teori (3–5 poin) yang mendasari percobaan.
    git commit -m "Minggu 1 - Arsitektur Sistem Operasi dan Kernel"
    git push origin main
    ```
-
 ---
 
 ## Kode / Perintah
 Tuliskan potongan kode atau perintah utama:
 ```bash
 uname -a
+whoami
 lsmod | head
-dmesg | head
+sudo dmesg | head
 ```
-
 ---
 
 ## Hasil Eksekusi
@@ -154,9 +153,25 @@ Linux memberikan akses yang lebih transparan dan terbuka terhadap fungsi kernel,
 ---
 
 ## Kesimpulan
-Tuliskan 2–3 poin kesimpulan dari praktikum ini.
+- Sistem operasi Linux bersifat terbuka dan transparan, memungkinkan pengguna untuk melihat informasi detail tentang kernel, modul yang dimuat, arsitektur sistem, dan proses booting secara langsung melalui terminal.
+- Kernel Linux berperan penting dalam mengelola sumber daya sistem dan menyediakan layanan inti kepada perangkat lunak melalui system call. Kernel yang digunakan bersifat modular monolithic, di mana modul kernel dapat dimuat dan dilepas secara dinamis sesuai kebutuhan sistem.
+- Perintah seperti ```uname, whoami, lsmod, dan dmesg``` menunjukkan bagaimana Linux memberikan akses langsung ke informasi sistem dan aktivitas kernel, yang sangat membantu dalam pemantauan, debugging, dan manajemen sistem.
 
 ---
+## Tugas
+
+### Perbedaan dan Contoh OS Nyata dari Monolithic Kernel, Microkernel, dan Layered Architecture
+1. **Monolithic Kernel**
+   Semua komponen kernel seperti driver perangkat, sistem file, manajemen proses, manajemen memori, penjadwalan CPU    dijalankan dalam satu ruang alamat kernel yang sama (kernel space). Kelebihannya adalah performa tinggi karena antar-komponen cepat tanpa overhead dan mudah dikembangkan untuk fitur kompleks. Namun kurang modular, jika satu modul mengalami bug atau carsh, seluruh kernel bisa gagal. Sulit untuk debugging dan pemeliharaan jangka panjang. Contoh OS yang menggunakan Monolithic Kernel yaitu Linux, MS-DOS, dan FreeBSD.
+
+2. **Microkernel**
+   Inti sistem operasi (OS) hanya menangani fungsi dasar minimal seperti manajemen memori, penjadwalan proses dan komunikasi antar-proses (IPC), sedangkan komponen lain seperti drive, sistem file, dll., dijalankan sebagai proses terpisah di ruang pengguna (user space). Sangat modular dan aman, kegagalan satu modul tidak memengaruhi kernel utama. Mudah untuk portabilitas dan verifikasi keamanan. Kekurangannya overhead komunikasi tinggi karena IPC melalui pesan yang bisa menurunkan performa, terutama untuk tugas intensif. Contoh OS yang menggunakan Microkenel adalah Minix, QNX, dan L4.
+
+3. **Layered Architecture**
+   Kernel dibagi menjadi lapisan-lapisan dengan tanggung jawab yang spesifik dimana setiap lapisan bergantung pada lapisan dibawahnya untuk menyederhanakan pengembangan, pemeliharaan, dan pemahaman sistem. Modular secara vertikal, memudahkan pemahaman dan pengujian per lapisan, lebih terstruktur daripada monolithic. Kekurangannya ketergantungan antar-lapisan bisa menyebabkan bottleneck (lapisan ataas haarus melewati semua lapisan bawah), kurang fleksibel untuk perubahan, dan performa bisa lambat daripada monolithic. Contoh OS yang menggunakan Layered Architecture adalah THE Operating System, Multics, Unix awal, dan Windows NT.
+
+### Analisis Model yang Paling Relevan untuk Sistem Modern
+Dari penjelasan diatas dapat disimpulkan bahwa Hybrid Kernel menjadi pilihan paling relevan karena mampu menggabungkan performa tinggi dari monolithic kernel dan modularitas serta keamanan dari microkernel. Meskipun monolithic kernel seperti Linux masih mendominasi, evolusi menuju arsitektur modular dan hybrid menunjukkan bahwa fleksibilitas dan keamanan semakin menjadi kebutuhan utama dalam pengembangan sistem operasi masa kini dan masa depan.
 
 ## Quiz
 1. Sebutkan tiga fungsi utama sistem operasi.
@@ -192,7 +207,7 @@ Tuliskan 2–3 poin kesimpulan dari praktikum ini.
 
 ## Refleksi Diri
 Tuliskan secara singkat:
-- Bagian yang paling menantang bagi saya di minggu ini yaitu belajar mengumpulkan tugas di github karena bagi saya ini adalah hal baru.
+- Bagian yang paling menantang bagi saya di minggu ini yaitu belajar mengoperasikan dan mengumpulkan tugas di github karena bagi saya ini adalah hal baru.
 - Cara mengatasi hal tersebut saya berusaha mencari tutorial-tutorial di internet misalnya YouTube, Google dll., dan saya juga berdikusi dengan teman.
 
 ---
