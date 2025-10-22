@@ -1,1 +1,118 @@
+rrfikaa@DESKTOP-TMK8VNI:~$ strace ls
+execve("/usr/bin/ls", ["ls"], 0x7ffdf81098c0 /* 25 vars */) = 0
+brk(NULL)                               = 0x61fc23951000
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x72f21d6a2000
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=17891, ...}) = 0
+mmap(NULL, 17891, PROT_READ, MAP_PRIVATE, 3, 0) = 0x72f21d69d000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libselinux.so.1", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
 
+```
+Analisis
+```
+
+execve("/usr/bin/ls", ["ls"], 0x7ffdf81098c0 /* 25 vars */) = 0
+System call : `execve()`
+Fungsi : Menjalankan program baru (`/usr/bin/ls`) menggantikan proses saat ini.
+Keterangan :
+  - `"/usr/bin/ls"` → path program yang dijalankan.
+  - `["ls"]` → argumen yang dikirim ke program.
+  - `0x7ffdf81098c0` → alamat ke variabel lingkungan (environment variables).
+Hasil: `= 0` berarti program berhasil dijalankan.
+
+---
+
+brk(NULL) = 0x61fc23951000
+System call : `brk()`
+Fungsi: Mengecek posisi akhir dari area heap proses.
+`NULL`** berarti hanya menanyakan posisi saat ini, bukan mengubahnya.
+Nilai kembali (`0x61fc23951000`)  → alamat memori heap saat ini.
+
+---
+
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0)
+    = 0x72f21d6a2000
+System call : `mmap()`
+Fungsi : Menciptakan area memori baru berukuran 8 KB.
+Keterangan :
+  - `PROT_READ|PROT_WRITE` → memori bisa dibaca & ditulis.
+  - `MAP_PRIVATE|MAP_ANONYMOUS` → bukan bagian dari file mana pun (memori anonim).
+Alamat hasil mapping : `0x72f21d6a2000` biasanya digunakan oleh linker dinamis untuk buffer internal.
+
+---
+
+access("/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+System call : `access()`
+Fungsi : Mengecek apakah file `/etc/ld.so.preload` dapat diakses untuk dibaca.
+Hasil : `ENOENT` → file tidak ada.
+File ini digunakan untuk memaksa preload library tertentu; tidak adanya file ini normal.
+
+---
+
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+System call : `openat()`
+Fungsi : Membuka file `/etc/ld.so.cache` dalam mode baca-saja.
+Keterangan : 
+  -  `AT_FDCWD` → direktori kerja saat ini.
+  - `O_RDONLY` → hanya dibaca.
+  - `O_CLOEXEC` → otomatis ditutup saat `exec()` berikutnya.
+Return value `3` → file descriptor (fd) yang digunakan untuk file cache.
+
+---
+
+fstat(3, {st_mode=S_IFREG|0644, st_size=17891, ...}) = 0
+System call: `fstat()`
+Fungsi : Mengambil informasi metadata file dari file descriptor 3.
+Hasil :
+  - `S_IFREG` : file biasa.
+  - `0644` : izin akses (read/write oleh owner, read-only oleh lainnya).
+  - `st_size=17891` : ukuran file 17.891 byte.
+Artinya file `/etc/ld.so.cache` terbaca normal.
+
+---
+
+mmap(NULL, 17891, PROT_READ, MAP_PRIVATE, 3, 0) = 0x72f21d69d000
+System call: `mmap()`
+Fungsi: Memetakan isi file `/etc/ld.so.cache` ke memori untuk mempercepat pembacaan.
+Keterangan :
+  - Ukuran 17891 byte sesuai ukuran file.
+  - `PROT_READ`  hanya bisa dibaca.
+  - `MAP_PRIVATE`  salinan pribadi (tidak memengaruhi file asli).
+Hasil: file dimuat ke memori di alamat `0x72f21d69d000`.
+
+---
+
+close(3) = 0
+System call : `close()`
+Fungsi : Menutup file descriptor 3 (`/etc/ld.so.cache`) setelah dimuat ke memori.
+Hasil : `0`  sukses.
+
+---
+
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libselinux.so.1", O_RDONLY|O_CLOEXEC) = 3
+System call : `openat()`
+Fungsi : Membuka library `libselinux.so.1` yang diperlukan oleh `ls`.
+Return value `3` file descriptor baru untuk pustaka ini.
+Library ini digunakan untuk keamanan konteks SELinux (Security-Enhanced Linux).
+
+---
+
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+System call : `read()`
+Fungsi : Membaca 832 byte pertama dari file library.
+Data yang terbaca diawali dengan `\177ELF` → ini adalah **header file ELF** (Executable and Linkable Format). Menandakan file adalah biner library Linux valid.**
+
+---
+
+Kesimpulan
+
+Baris-baris `strace` ini menunjukkan tahapan awal dari proses eksekusi `ls`:
+
+1. Program dijalankan (`execve`)
+2. Menyiapkan memori (`brk`, `mmap`)
+3. Linker memeriksa file konfigurasi preload (`access`)
+4. Memuat cache library (`ld.so.cache`)
+5. Membuka dan membaca library yang diperlukan (`libselinux.so.1`)
