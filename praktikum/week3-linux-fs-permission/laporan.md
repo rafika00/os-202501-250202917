@@ -89,30 +89,239 @@ Setelah menyelesaikan tugas ini, mahasiswa mampu:
 ---
 
 ## Kode / Perintah
-Tuliskan potongan kode atau perintah utama:
+Eksperimen 1
 ```bash
-uname -a
-lsmod | head
-dmesg | head
+   pwd
+   ls -l
+   cd /tmp
+   ls -a
 ```
+Eksperimen 2
+ ```bash
+   cat /etc/passwd | head -n 5
+   ```
+Eksperimen 3
+ ```bash
+   echo "Hello <NAME><NIM>" > percobaan.txt
+   ls -l percobaan.txt
+   chmod 600 percobaan.txt
+   ls -l percobaan.txt
+   ```
+ ```bash
+   sudo chown root percobaan.txt
+   ls -l percobaan.txt
+   ```
 
 ---
 
 ## Hasil Eksekusi
-Sertakan screenshot hasil percobaan atau diagram:
-![Screenshot hasil](screenshots/example.png)
+![alt text](<screenshots/eksperimen week3.png>)
 
 ---
 
 ## Analisis
-- Jelaskan makna hasil percobaan.  
-- Hubungkan hasil dengan teori (fungsi kernel, system call, arsitektur OS).  
-- Apa perbedaan hasil di lingkungan OS berbeda (Linux vs Windows)?  
+### Eksperimen 1
+
+- **Perintah 1 :**
+  
+  | Perintah | Output | Penjelasan |
+  | :--- | :--- | :---|
+  | `pwd` | /home/rrfikaa | `pwd` (print working directory) menampilkan direktori kerja saat ini. Artinya, pengguna sedang berada di folder /home/rrfikaa — yaitu direktori home milik user `rrfikaa` |
+
+- **Perintah 2 :**
+
+    Perintah : `ls -l`
+    
+    Output : total 8
+    
+             -rw-r--r-- 1 rrfikaa rrfikaa 46 Oct 25 06:24 cat
+    
+             -rw------- 1 root    rrfikaa 32 Oct 24 23:27 percobaan.txt
+
+    Penjelasan : `ls -l` menampilkan daftar file/folder dalam format long listing (lengkap dengan permission, pemilik, ukuran, dan tanggal).
+
+    | Nama File | Permission | Owner | Group | Ukuran | Waktu Modifikasi | Keterangan |
+    | :--- | :--- | :---| :--- | :--- | :--- | :--- |
+    | `cat` | `-rw-r--r--` | `rrfikaa` | `rrfikaa` | 46 byte | Oct 25 06:24 | File biasa, dapat dibaca dan ditulis oleh pemilik, dibaca oleh group dan others |
+    | `percobaan.txt` | `-rw-------` | `root` | `rrfikaa` | 32 byte | Oct 24 23:27 | File hanya bisa diakses oleh user `root` |
+
+- **Perintah 3 :**
+
+  Perintah : `cd /tmp`
+
+  Penjelasan : cd (change directory) digunakan untuk berpindah direktori. Setelah perintah ini dijalankan, direktori aktif berubah menjadi /tmp (direktori sementara sistem Linux).
+
+- **Perintah 4 :**
+
+  Perintah : `ls -a`
+
+  Output :
+
+```
+   .                 
+  ..                
+  .X11-unix         
+  snap-private-tmp  
+  systemd-private-785d171431054ac098d8d0a9a89305db-systemd-logind.service-FChNqp
+  systemd-private-785d171431054ac098d8d0a9a89305db-systemd-resolved.service-5nhKjU
+  systemd-private-785d171431054ac098d8d0a9a89305db-systemd-timesyncd.service-wfIk0q
+  systemd-private-785d171431054ac098d8d0a9a89305db-wsl-pro.service-Af6XWU
+```
+
+  Penjelasan :
+
+  | Nama | Jenis | Keterangan |
+  | :--- | :--- | :---|
+  | `.` | Folder | Menunjukkan direktori saat ini (`/tmp`) |
+  | `..` | Folder | Menunjukkan direktori induk (`/`) |
+  | `.X11-unix` | Folder tersembunyi | Digunakan oleh sistem grafis X11 untuk komunikasi antar proses |
+  | `snap-private-tmp` | Folder | Area sementara yang digunakan oleh aplikasi Snap |
+  | `systemd-private-*` | Folder | Direktori sementara yang dibuat oleh sistem `systemd` untuk menjaga keamanan dan isolasi layanan (misalnya `logind`, `resolved`, `timesyncd`, `wsl-pro`) |
+
+### Eksperimen 2
+
+```
+rrfikaa@DESKTOP-TMK8VNI:/tmp$ cat /etc/passwd | head -n 5
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+```
+
+Setiap baris berisi 7 kolom yang dipisahkan oleh tanda titik dua (:) dengan format :
+
+```
+username:password:UID:GID:comment:home_directory:login_shell
+```
+
+| Kolom | Nama Field | Arti / Fungsi |
+| :--- | :--- | :---|
+| 1 | username | Nama pengguna yang digunakan untuk login |
+| 2 | password | Biasanya berisi `x`, artinya password disimpan secara terenkripsi di file `/etc/shadow` |
+| 3 | UID (User ID) | Nomor identitas unik untuk pengguna. `0` adalah UID khusus untuk `root` |
+| 4 | GID (Group ID) | Nomor identitas grup utama pengguna |
+| 5 | comment / GECOS field | Deskripsi atau nama lengkap pengguna (opsional) |
+| 6 | home directory | Lokasi direktori utama pengguna di sistem |
+| 7 | login shell | Program shell yang digunakan saat pengguna login (misalnya `/bin/bash`) |
+
+***Analisi Output***
+
+| No | Username | UID | GID | Home Directory | Login Shell | Keterangan |
+| :--- | :--- | :---| :--- | :--- | :--- | :--- |
+| 1 | root   | 0 | 0 | `/root` | `/bin/bash` | Akun administrator utama (superuser) dengan akses penuh ke sistem |
+| 2 | daemon | 1 | 1 | `/usr/sbin` | `/usr/sbin/nologin` | Akun sistem untuk menjalankan layanan background (daemon), tidak bisa login |
+| 3 | bin | 2 | 2 | `/bin` | `/usr/sbin/nologin` | Akun sistem yang memiliki program biner standar. Tidak digunakan oleh user biasa |
+| 4 | sys | 3 | 3 | `/dev` | `/usr/sbin/nologin` | Akun sistem untuk proses internal kernel dan device management |
+| 5 | sync | 4 | 65534 | `/bin` | `/bin/sync` | Akun khusus yang dapat menjalankan perintah sinkronisasi sistem file, tidak untuk login |
+
+
+
+### Eksperimen 3 
+
+```
+rrfikaa@DESKTOP-TMK8VNI:/tmp$ echo "Hello <Rafika Rahma><250202917>" > percobaan.txt
+rrfikaa@DESKTOP-TMK8VNI:/tmp$ ls -l percobaan.txt
+-rw-r--r-- 1 rrfikaa rrfikaa 32 Oct 25 08:26 percobaan.txt
+rrfikaa@DESKTOP-TMK8VNI:/tmp$ chmod 600 percobaan.txt
+rrfikaa@DESKTOP-TMK8VNI:/tmp$ ls -l percobaan.txt
+-rw------- 1 rrfikaa rrfikaa 32 Oct 25 08:26 percobaan.txt
+rrfikaa@DESKTOP-TMK8VNI:/tmp$ cat percobaan.txt
+Hello <Rafika Rahma><250202917>
+rrfikaa@DESKTOP-TMK8VNI:/tmp$ sudo chown root percobaan.txt
+[sudo] password for rrfikaa:
+rrfikaa@DESKTOP-TMK8VNI:/tmp$ ls -l percobaan.txt
+-rw------- 1 root rrfikaa 32 Oct 25 08:26 percobaan.txt
+rrfikaa@DESKTOP-TMK8VNI:/tmp$ cd
+rrfikaa@DESKTOP-TMK8VNI:~$
+```
+
+```
+echo "Hello <Rafika Rahma><250202917>" > percobaan.txt
+```
+
+Penjelasan : 
+
+- Membuat file baru bernama percobaan.txt di direktori /tmp.
+- Isi file : `Hello <Rafika Rahma><250202917>`
+- File otomatis dibuat dengan izin default, yaitu :
+
+  `-rw-r--r--`
+   - Pemilik (owner): dapat membaca dan menulis
+   - Grup dan pengguna lain: hanya dapat membaca
+ 
+**Setelah diperiksa dengan perintah `ls -l`**
+
+```
+-rw-r--r-- 1 rrfikaa rrfikaa 32 Oct 25 08:26 percobaan.txt
+```
+
+Keterangan:
+- Pemilik: rrfikaa
+- Grup: rrfikaa
+- Ukuran: 32 byte
+- Permission: rw-r--r-- (mode 644)
+
+```
+chmod 600 percobaan.txt
+```
+
+Penjelasan:
+
+- chmod digunakan untuk mengubah izin (permission) file
+- Mode 600 berarti:
+  - Pemilik `rw-` : dapat membaca dan menulis
+  - Grup `---` : tidak ada akses
+  - Lainnya `---` : tidak ada akses
+- Hasilnya file hanya bisa diakses oleh pemilik
+
+**Setelah `chmod 600` hasil `ls -l` menjadi :**
+
+```
+-rw------- 1 rrfikaa rrfikaa 32 Oct 25 08:26 percobaan.txt
+```
+
+**Analisis Perubahan**
+
+ | Nama | Jenis | Keterangan |
+ | :--- | :--- | :---|
+ | Sebelum `(rw-r--r--)` | Sesudah `(rw-------)` | Efek |
+ | Owner bisa baca & tulis | Owner tetap bisa baca & tulis | Tidak berubah |
+ | Group bisa baca | Group tidak bisa akses | Lebih aman |
+ | Others bisa baca | Others tidak bisa akses | Lebih aman |
+
+```
+sudo chown root percobaan.txt
+```
+
+Penjelasan:
+- `chown` (change owner) digunakan untuk mengubah kepemilikan file
+- Karena butuh hak administratif, digunakan `sudo`
+- File `percobaan.txt` sekarang dimiliki oleh user root
+
+**Setelah `sudo chown root` hasil `ls -l` menjadi :**
+
+```
+-rw------- 1 root rrfikaa 32 Oct 25 08:26 percobaan.txt
+```
+
+**Analisis Perubahan**
+
+| Atribut | Sebelum | Sesudah | Efek |
+| :--- | :--- | :--- | :--- |
+| Owner | `rrfikaa` | `root` | File kini milik administrator |
+| Group | `rrfikaa` | `rrfikaa` | Tetap sama |
+| Permission | `rw-------` | `rw-------` | Tidak berubah |
+| Akses oleh user biasa | Bisa (karena pemilik) | Tidak bisa lagi, kecuali via `sudo` | Membatasi akses |
 
 ---
 
 ## Kesimpulan
-Tuliskan 2–3 poin kesimpulan dari praktikum ini.
+1 Setiap file dan direktori di Linux memiliki atribut kepemilikan dan izin akses (permission) yang mengatur siapa yang dapat membaca, menulis, atau mengeksekusi file tersebut. Perintah seperti `ls -l`, `chmod`, dan `chown` digunakan untuk melihat dan mengubah hak akses tersebut.
+
+2 Perintah `chmod` digunakan untuk mengatur tingkat keamanan file. Dengan mengubah mode permission (misalnya dari `rw-r--r--` menjadi `rw-------`), pengguna dapat membatasi akses hanya untuk pemilik dan melindungi file dari pengguna lain.
+
+3. Perintah `chown` memungkinkan perubahan kepemilikan file. Saat kepemilikan diubah (misalnya dari `rrfikaa` ke `root`), hanya pemilik baru yang memiliki hak akses penuh terhadap file, sehingga meningkatkan kontrol dan keamanan sistem.
 
 ---
 
@@ -144,8 +353,16 @@ Perintah `chmod` adalah singkatan dari change mode, yaitu perintah di sistem ope
 
 ## Refleksi Diri
 Tuliskan secara singkat:
-- Apa bagian yang paling menantang minggu ini?  
-- Bagaimana cara Anda mengatasinya?  
+- Apa bagian yang paling menantang minggu ini?
+  
+  **Jawaban :**
+  memahami cara kerja dan hubungan antara izin (permission) serta kepemilikan (ownership) file atau direktori.
+  
+- Bagaimana cara Anda mengatasinya?
+  
+  **Jawaban :**
+Dengan latihan praktik dan pengamatan langsung menggunakan perintah di terminal Linux dan mengamati hasilnya secara bertahap. Saya mencoba berbagai kombinasi perintah seperti `chmod`, `chown`, dan `ls -l` untuk melihat perubahan pada permission dan kepemilikan file. Selain itu, saya juga mencatat arti setiap kode izin r (read), w (write), x (execute) dan saya juga berdiskusi dengan teman.
+  
 
 ---
 
