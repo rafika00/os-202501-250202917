@@ -1,4 +1,3 @@
-
 # Laporan Praktikum Minggu 3
 Topik : Manajemen File dan Permission di Linux
 
@@ -6,7 +5,7 @@ Topik : Manajemen File dan Permission di Linux
 
 ## Identitas
 - **Nama**  : Rafika Rahma
-- **NIM**   : 2502202917 
+- **NIM**   : 250202917 
 - **Kelas** : 1 IKRA
 
 ---
@@ -119,7 +118,6 @@ Eksperimen 3
 
 ---
 
-## Analisis
 ### Eksperimen 1
 
 - **Perintah 1 :**
@@ -316,16 +314,68 @@ Penjelasan:
 
 ---
 
-## Kesimpulan
-1 Setiap file dan direktori di Linux memiliki atribut kepemilikan dan izin akses (permission) yang mengatur siapa yang dapat membaca, menulis, atau mengeksekusi file tersebut. Perintah seperti `ls -l`, `chmod`, dan `chown` digunakan untuk melihat dan mengubah hak akses tersebut.
+## Analisi
 
-2 Perintah `chmod` digunakan untuk mengatur tingkat keamanan file. Dengan mengubah mode permission (misalnya dari `rw-r--r--` menjadi `rw-------`), pengguna dapat membatasi akses hanya untuk pemilik dan melindungi file dari pengguna lain.
+**Eksperimen 1 :** Perintah dasar Linux seperti `pwd`, `ls -l`, `cd`, dan `ls -a` berfungsi untuk menampilkan lokasi kerja, isi direktori, serta berpindah antar direktori dalam sistem. Hasil percobaan juga menunjukkan pentingnya konsep manajemen file dan permission, di mana setiap file memiliki pemilik (user), grup, dan hak akses (read, write, execute) yang menentukan siapa saja yang dapat mengakses atau mengubah file tersebut. Selain itu, direktori /tmp berperan sebagai tempat penyimpanan sementara untuk berbagai proses sistem, termasuk layanan `systemd`.
+
+**Eksperimen 2 :** `/etc/passwd` berfungsi sebagai database utama yang menyimpan informasi seluruh akun pengguna di sistem Linux, baik akun pengguna biasa maupun akun sistem.
+Lima baris pertama yang ditampilkan menunjukkan bahwa sebagian besar adalah akun sistem seperti `daemon`, `bin`, `sys`, dan `sync` yang digunakan untuk menjalankan layanan internal, bukan untuk login pengguna. Hanya akun root yang memiliki hak akses penuh terhadap sistem.
+
+**Eksperimen 3 :** Perintah `echo`, `chmod`, dan `chown` memiliki peran penting dalam manajemen file dan permission di Linux. Perintah `echo` digunakan untuk membuat file dan menuliskan isi ke dalamnya, `chmod` digunakan untuk mengubah izin akses file agar hanya pihak tertentu yang dapat membaca atau menulis, sedangkan `chown` berfungsi untuk mengubah kepemilikan file. Setelah file `percobaan.txt` diubah kepemilikannya menjadi `root` dan izinnya diset ke `rw-------`, maka hanya pengguna root yang dapat mengakses file tersebut. Hal ini menunjukkan bagaimana Linux menerapkan pengendalian hak akses yang ketat guna menjaga keamanan dan privasi data di dalam sistem.
+
+---
+
+## Kesimpulan
+1. Setiap file dan direktori di Linux memiliki atribut kepemilikan dan izin akses (permission) yang mengatur siapa yang dapat membaca, menulis, atau mengeksekusi file tersebut. Perintah seperti `ls -l`, `chmod`, dan `chown` digunakan untuk melihat dan mengubah hak akses tersebut.
+
+2. Perintah `chmod` digunakan untuk mengatur tingkat keamanan file. Dengan mengubah mode permission (misalnya dari `rw-r--r--` menjadi `rw-------`), pengguna dapat membatasi akses hanya untuk pemilik dan melindungi file dari pengguna lain.
 
 3. Perintah `chown` memungkinkan perubahan kepemilikan file. Saat kepemilikan diubah (misalnya dari `rrfikaa` ke `root`), hanya pemilik baru yang memiliki hak akses penuh terhadap file, sehingga meningkatkan kontrol dan keamanan sistem.
 
 ---
 
-## Quiz
+## Tugas & Quiz
+
+---
+
+### Tugas
+
+**Jelaskan fungsi tiap perintah dan arti kolom permission (`rwxr-xr--`)**
+
+| No | Perintah | Fungsi | Keterangan |
+| :--- | :--- | :--- | :--- |
+| 1  | `pwd` | Menampilkan direktori kerja aktif (current working directory) | Menunjukkan bahwa user berada di `/home/rrfikaa` |
+| 2  | `ls -l` | Menampilkan isi direktori secara detail (long listing format) | Menunjukkan nama file, pemilik, grup, ukuran, tanggal, dan hak akses file |
+| 3  | `cd /tmp` | Berpindah direktori ke `/tmp` | Pindah ke direktori sementara yang digunakan oleh sistem untuk menyimpan file temporer |
+| 4  | `ls -a` | Menampilkan semua file, termasuk file tersembunyi (hidden file) | Menampilkan isi lengkap direktori `/tmp`, termasuk file sistem seperti `.X11-unix` dan `systemd-private-*` |
+| 5  | `cat /etc/passwd \| head -n 5` | Menampilkan 5 baris pertama dari file `/etc/passwd` | Menunjukkan daftar akun pengguna sistem Linux beserta informasi UID, GID, direktori home, dan shell |
+| 6  | `echo "Hello <Rafika Rahma><250202917>" > percobaan.txt` | Membuat file baru `percobaan.txt` dan menulis teks ke dalamnya | File `percobaan.txt` dibuat dengan isi teks yang dimasukkan setelah perintah echo |
+| 7  | `ls -l percobaan.txt` | Menampilkan detail file `percobaan.txt` | Menunjukkan pemilik, grup, ukuran, dan hak akses file |
+| 8  | `chmod 600 percobaan.txt` | Mengubah izin akses file agar hanya pemilik yang dapat membaca dan menulis | Permission berubah menjadi `rw-------` |
+| 9  | `sudo chown root percobaan.txt` | Mengubah kepemilikan file menjadi milik user `root` | Pemilik file berubah dari `rrfikaa` menjadi `root` |
+| 10 | `ls -l percobaan.txt` | Menampilkan kembali detail file setelah perubahan izin dan kepemilikan | File sekarang dimiliki oleh root dengan permission `rw-------` |
+
+| Simbol | Keterangan |
+| :--- | :--- |
+| `-` | Jenis file (`-` = file biasa, `d` = direktori, `l` = link) |
+| `rwx` | Hak akses pemilik (user) : dapat membaca (`r`), menulis (`w`), dan mengeksekusi (`x`) |
+| `r-x` | Hak akses grup : dapat membaca (`r`) dan mengeksekusi (`x`), tetapi tidak menulis |
+| `r--` | Hak akses lainnya (others) : hanya dapat membaca |
+
+**Analisis peran chmod dan chown dalam keamanan sistem Linux**
+
+| **Aspek** | **`chmod`** | **`chown`** |
+| :--- | :--- | :--- | 
+| **Fungsi** | Mengatur izin akses (r, w, x) | Mengubah kepemilikan file atau direktori |
+| **Tujuan** | Membatasi tindakan pengguna pada file | Menentukan siapa yang berhak atas file |
+| **Dampak Keamanan** | Mencegah akses, perubahan, atau eksekusi tanpa izin | Menjaga agar file hanya dikelola oleh pemilik sah |
+| **Contoh** | `chmod 600 data.txt` → hanya pemilik bisa akses | `chown root:admin config.txt` hanya root & admin punya hak |
+| **Risiko Jika Salah** | File bisa diakses semua user (`chmod 777`) | File penting bisa diambil alih user biasa |
+| **Peran Utama** | Mengatur apa yang boleh dilakukan | Mengatur siapa yang memiliki file |
+
+---
+
+### Quiz
 1. Apa fungsi dari perintah `chmod`?
    
    **jawaban :**
