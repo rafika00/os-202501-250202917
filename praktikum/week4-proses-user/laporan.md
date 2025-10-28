@@ -23,7 +23,10 @@ Setelah menyelesaikan tugas ini, mahasiswa mampu:
 ---
 
 ## Dasar Teori
-Tuliskan ringkasan teori (3–5 poin) yang mendasari percobaan.
+
+Manajemen proses dan user di Linux merupakan bagian penting dalam pengelolaan sistem operasi yang bertujuan untuk memastikan penggunaan sumber daya komputer secara efisien dan aman. Proses adalah program yang sedang dijalankan dan dikelola oleh kernel, di mana setiap proses memiliki identitas unik berupa PID (Process ID). Proses dapat berjalan di latar depan (foreground) atau latar belakang (background), serta dapat dimonitor dan dikendalikan menggunakan perintah seperti `ps`, `top`, `kill`, `bg`, dan `fg`.
+Dalam sistem Linux, setiap proses memiliki hubungan hierarkis antara parent process dan child process, dengan proses induk utama yaitu `init` atau `systemd`. Sementara itu, manajemen user berkaitan dengan pengaturan akun pengguna dan grup. Linux mendukung sistem multiuser, di mana setiap pengguna memiliki UID (User ID) dan grup dengan GID (Group ID). Pengelolaan ini dilakukan menggunakan perintah seperti `adduser`, `deluser`, dan `usermod`.
+Dari sisi keamanan, setiap file dan proses di Linux memiliki hak akses tertentu berupa izin baca (read), tulis (write), dan eksekusi (execute), yang membedakan akses antara pemilik, grup, dan pengguna lain. Administrator (root) memiliki hak tertinggi dalam sistem untuk mengatur proses maupun pengguna. Dengan demikian, manajemen proses dan user berperan penting dalam menjaga stabilitas, efisiensi, dan keamanan sistem Linux.
 
 ---
 
@@ -154,12 +157,18 @@ Tuliskan 2–3 poin kesimpulan dari praktikum ini.
 1. Apa fungsi dari proses `init` atau `systemd` dalam sistem Linux?
 
    **jawaban :**
-3. Apa perbedaan antara `kill` dan `killall`?
+Proses `init` atau `systemd` merupakan komponen utama dalam sistem Linux yang berfungsi sebagai proses pertama yang dijalankan setelah kernel aktif. Proses ini bertanggung jawab untuk memulai seluruh layanan dan proses penting, mengatur urutan booting, serta menjadi induk dari semua proses lain di sistem. Dengan perannya tersebut, `init` atau `systemd` memastikan sistem Linux dapat berjalan dengan stabil, terstruktur, dan siap digunakan oleh pengguna maupun aplikasi lain.
+
+2. Apa perbedaan antara `kill` dan `killall`?
 
    **jawaban :**
-5. Mengapa user `root` memiliki hak istimewa di sistem Linux?
+Perintah `kill` digunakan untuk menghentikan satu proses tertentu berdasarkan PID (Process ID), sedangkan `killall` digunakan untuk menghentikan semua proses yang memiliki nama program yang sama. `kill` lebih spesifik dan menargetkan satu proses, sementara `killall` bersifat lebih luas karena mematikan semua proses dengan nama yang ditentukan.
+
+3. Mengapa user `root` memiliki hak istimewa di sistem Linux?
 
    **jawaban :**
+User `root` memiliki hak istimewa di sistem Linux karena berperan sebagai administrator utama yang memiliki akses penuh terhadap seluruh sistem. Akun ini digunakan untuk melakukan tugas-tugas penting seperti pengelolaan pengguna, konfigurasi sistem, instalasi perangkat lunak, dan pemeliharaan keamanan. Dengan hak istimewanya, `root` memastikan sistem dapat dikelola dan dikendalikan sepenuhnya, namun harus digunakan dengan hati-hati karena kesalahan dapat memengaruhi seluruh sistem.
+
 
 ---
 
