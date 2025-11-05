@@ -88,38 +88,80 @@ Setelah menyelesaikan tugas ini, mahasiswa mampu:
 ---
 
 ## Kode / Perintah
-Tuliskan potongan kode atau perintah utama:
-```bash
-uname -a
-lsmod | head
-dmesg | head
+
+```Bash
+ Waiting Time (WT) = waktu mulai eksekusi - Arrival Time
+ Turnaround Time (TAT) = WT + Burst Time
+
+ Average Waiting Time (WT) = Total WT / Jumlah Proses
+ Average Turnaround Time (TAT) = Total TAT / Jumlah Proses
 ```
 
 ---
 
 ## Hasil Eksekusi
-Sertakan screenshot hasil percobaan atau diagram:
-![Screenshot hasil](screenshots/example.png)
+![alt text](<screenshots/FCFS & SJF.png>)
+
+---
+
+![alt text](<screenshots/FCFS.png>)
+
+---
+
+![alt text](<screenshots/SJF.png>)
 
 ---
 
 ## Analisis
-- Jelaskan makna hasil percobaan.  
-- Hubungkan hasil dengan teori (fungsi kernel, system call, arsitektur OS).  
-- Apa perbedaan hasil di lingkungan OS berbeda (Linux vs Windows)?  
+**Eksperimen 1 – FCFS (First Come First Served)**
+
+Pada algoritma FCFS, proses dieksekusi berdasarkan urutan kedatangan. Proses yang datang lebih dahulu akan dijalankan lebih dulu tanpa memperhatikan lama waktu eksekusinya (burst time). Dari hasil percobaan, proses P1 dijalankan pertama kali diikuti oleh P2, P3, dan P4.
+Rata-rata waktu tunggu (waiting time) yang diperoleh adalah 8,75, sedangkan rata-rata waktu penyelesaian (turnaround time) adalah 14,75. Nilai ini cukup tinggi karena proses dengan waktu eksekusi panjang dapat menyebabkan proses lain menunggu lama. Hal ini menunjukkan bahwa FCFS kurang efisien jika ada variasi burst time antarproses.
+
+**Eksperimen 2 – SJF (Shortest Job First)**
+
+Pada algoritma SJF, proses dengan waktu eksekusi paling singkat akan dijalankan terlebih dahulu. Berdasarkan hasil percobaan, urutan eksekusi proses adalah P1, P4, P3, dan terakhir P2.
+Hasil perhitungan menunjukkan bahwa rata-rata waktu tunggu (waiting time) adalah 6,25, dan rata-rata waktu penyelesaian (turnaround time) adalah 12,25. Nilai ini lebih kecil dibandingkan dengan FCFS, menandakan bahwa SJF memberikan kinerja yang lebih efisien karena dapat meminimalkan waktu tunggu total.
 
 ---
 
 ## Kesimpulan
-Tuliskan 2–3 poin kesimpulan dari praktikum ini.
+1. Berdasarkan hasil perhitungan, algoritma SJF (Shortest Job First) menghasilkan rata-rata waktu tunggu dan waktu penyelesaian yang lebih rendah dibandingkan FCFS (First Come First Served), sehingga lebih efisien dalam penggunaan CPU.
+2. FCFS lebih mudah diimplementasikan karena hanya bergantung pada urutan kedatangan proses, namun kurang efisien ketika terdapat variasi waktu eksekusi yang besar antarproses.
+3. SJF memberikan performa terbaik untuk sistem batch atau proses dengan waktu eksekusi yang dapat diprediksi, tetapi tidak cocok untuk sistem interaktif karena sulit memperkirakan burst time dan dapat menyebabkan starvation pada proses berdurasi panjang.
 
 ---
 
 ## D. Tugas & Quiz
 ### Tugas
-1. Hitung *waiting time* dan *turnaround time* dari minimal 2 skenario FCFS dan SJF.  
-2. Sajikan hasil perhitungan dalam tabel perbandingan (FCFS vs SJF).  
-3. Analisis kelebihan dan kelemahan tiap algoritma.  
+**Analisis kelebihan dan kelemahan tiap algoritma**
+
+**Jawaban :**
+
+1. Eksperimen 1 – FCFS (First Come First Served)
+   
+   Kelebihan:
+   - Sederhana dan mudah diterapkan, karena proses dijalankan berdasarkan urutan kedatangan tanpa perhitungan tambahan
+   - Adil dalam antrian, setiap proses akan dieksekusi sesuai urutan kedatangan tanpa ada yang terlewati
+   - Cocok untuk sistem batch sederhana atau lingkungan dengan proses berdurasi hampir sama
+
+   Kelemahan:
+   - Dapat menimbulkan convoy effect, yaitu proses dengan waktu eksekusi pendek harus menunggu proses panjang selesai
+   - Waktu tunggu rata-rata tinggi, terutama bila terdapat variasi besar pada burst time
+   - Tidak efisien untuk sistem interaktif, karena respon terhadap proses pendek menjadi lambat
+  
+2. Eksperimen 2 – SJF (Shortest Job First)
+
+   Kelebihan:
+   - Menghasilkan waktu tunggu rata-rata minimum, karena proses dengan burst time pendek dieksekusi terlebih dahulu
+   - Lebih efisien dalam pemakaian CPU dibanding FCFS
+   - Cocok untuk sistem batch yang sudah mengetahui waktu eksekusi setiap proses
+
+   Kelemahan:
+   - Sulit diterapkan pada sistem nyata karena burst time tiap proses tidak selalu diketahui sebelumnya
+   - Dapat menyebabkan starvation, di mana proses berdurasi panjang terus tertunda karena selalu ada proses pendek yang datang
+   - Tidak cocok untuk sistem interaktif atau real-time, karena tidak menjamin keadilan dan respon cepat untuk semua proses
+
 
 ### Quiz
 1. Apa perbedaan utama antara FCFS dan SJF?
@@ -152,8 +194,14 @@ Tuliskan 2–3 poin kesimpulan dari praktikum ini.
 
 ## Refleksi Diri
 Tuliskan secara singkat:
-- Apa bagian yang paling menantang minggu ini?  
-- Bagaimana cara Anda mengatasinya?  
+- Apa bagian yang paling menantang minggu ini?
+  
+  **Jawaban :**
+  Bagian yang paling menantang minggu ini adalah memahami cara menghitung waktu mulai, waktu tunggu (waiting time), dan turnaround time pada setiap proses untuk kedua algoritma, terutama pada SJF karena perlu menentukan urutan proses berdasarkan burst time dengan memperhatikan waktu kedatangan.  
+- Bagaimana cara Anda mengatasinya?
+  
+   **Jawaban :**
+  Dengan mempelajari kembali rumus dasar perhitungan FCFS dan SJF, kemudian mencoba menghitung langkah demi langkah menggunakan tabel di Excel agar lebih mudah memeriksa hasilnya, saya juga berdiskusi dengan teman.
 
 ---
 
