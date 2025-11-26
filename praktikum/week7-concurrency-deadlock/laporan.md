@@ -6,9 +6,9 @@ Topik: Sinkronisasi Proses dan Masalah Deadlock
 
 ## Identitas Kelompok
   **Nama**  :
-  1. Rafika Rahma (250202917)
-  2. Putri Amaliya Rahmadani (250202924)
-  3. Keysya Ayu Anggita (250202944)
+  1. Rafika Rahma (250202917) - Analisis
+  2. Putri Amaliya Rahmadani (250202924) - Dokumentasi (Ketua)
+  3. Keysya Ayu Anggita (250202944) - Implementasi
      
   **Kelas** : 1 IKRA
 
@@ -100,18 +100,9 @@ Deadlock hanya terjadi apabila empat kondisi berikut muncul secara bersamaan.
    ```
 ---
 
-## Kode / Perintah
-Tuliskan potongan kode atau perintah utama:
-```bash
-uname -a
-lsmod | head
-dmesg | head
-```
-
----
-
 ## Hasil Eksekusi
 ### Eksperimen 1 – Simulasi Dining Philosophers (Deadlock Version)
+![alt text](<screenshots/deadlock.png>)
 
 **Output**
 ```
@@ -212,6 +203,7 @@ Deadlock muncul karena keempat kondisi deadlock terpenuhi sekaligus:
 ---
 
 ### Eksperimen 2 – Versi Fixed Menggunakan Semaphore 
+![alt text](<screenshots/fixed semaphore.png>)
 **Output**
 ```
 Filosof 0 siap...
@@ -334,18 +326,13 @@ Aturan: setiap filosof wajib memanggil footman.acquire() sebelum mengambil garpu
 | No Preemption | Ya (Garpu tidak dapat dipaksa dilepas) | Tetap ada. Garpu tetap tidak dapat dipaksa dilepas. Namun tidak menimbulkan deadlock karena circular wait dihentikan |
 | Circular Wait | Ya (Semua filosof membentuk rantai tunggu melingkar, di mana setiap filosof menunggu garpu kanan yang sedang dipegang filosof lain) | Dicegah. Karena maksimal hanya N−1 filosof yang boleh mengambil garpu, tidak mungkin terbentuk rantai tunggu penuh lingkaran |
 
-
----
-
-## Analisis
-- Jelaskan makna hasil percobaan.  
-- Hubungkan hasil dengan teori (fungsi kernel, system call, arsitektur OS).  
-- Apa perbedaan hasil di lingkungan OS berbeda (Linux vs Windows)?  
-
 ---
 
 ## Kesimpulan
-Tuliskan 2–3 poin kesimpulan dari praktikum ini.
+- Pada percobaan pertama, seluruh filosof berhasil mengambil garpu kiri secara bersamaan dan kemudian menunggu garpu kanan yang sedang digunakan oleh filosof lain. Hal ini menyebabkan seluruh proses terhenti dan tidak ada filosof yang dapat melanjutkan aktivitas makan.
+- Situasi deadlock terjadi karena setiap filosof memegang satu garpu sambil menunggu garpu lainnya, sehingga terbentuk kondisi saling menunggu yang tidak dapat diselesaikan.
+- Pada percobaan kedua, diterapkan mekanisme semaphore dengan nilai awal empat untuk membatasi jumlah filosof yang dapat memasuki bagian kritis secara bersamaan. Dengan pembatasan ini, setidaknya satu filosof selalu tertahan di luar.
+- Pembatasan tersebut mencegah seluruh filosof mengambil garpu kiri secara serentak, sehingga rantai tunggu melingkar (circular wait) yang menjadi penyebab utama deadlock tidak dapat terbentuk.Dengan demikian, seluruh filosof dapat makan secara bergiliran tanpa terjadi kebuntuan. Penggunaan semaphore terbukti efektif dalam mencegah deadlock pada permasalahan Dining Philosophers.
 
 ---
 
@@ -380,8 +367,14 @@ Tuliskan 2–3 poin kesimpulan dari praktikum ini.
 
 ## Refleksi Diri
 Tuliskan secara singkat:
-- Apa bagian yang paling menantang minggu ini?  
-- Bagaimana cara Anda mengatasinya?  
+- Apa bagian yang paling menantang minggu ini?
+
+  **Jawaban:**
+  Memahami bagaimana deadlock terjadi dari interaksi antar thread.
+- Bagaimana cara Anda mengatasinya?
+
+  **Jawaban:**
+  Berdiskusi dengan kelompok untuk membandingkan alur kode, menganalisis kemungkinan deadlock, dan menyusun solusi sinkronisasi yang tepat.
 
 ---
 
