@@ -113,8 +113,7 @@ print(f"Rata-rata Turnaround Time  : {avg_turnaround}")
 ---
 
 ## Hasil Eksekusi
-Sertakan screenshot hasil percobaan atau diagram:
-![Screenshot hasil](screenshots/example.png)
+![alt text](<screenshots/schedulling_simulation.png>)
 
 ---
 
@@ -204,6 +203,11 @@ Program di atas mensimulasikan algoritma penjadwalan CPU First Come First Served
    Menghitung rata-rata waiting time dan turnaround time.
 
 ### Perbandingan dengan Perhitungan Manual
+![alt text](<screenshots/hasil_simulasi.png>)
+![alt text](<screenshots/FCFS.png>)
+
+Hasil simulasi algoritma **FCFS (First Come First Served)** menunjukkan nilai **waiting time** dan **turnaround time** yang sama dengan perhitungan manual, sehingga dapat disimpulkan bahwa simulasi telah berjalan dengan benar. Setiap proses dieksekusi sesuai urutan kedatangan, di mana proses pertama langsung dijalankan tanpa waktu tunggu, sementara proses berikutnya harus menunggu hingga proses sebelumnya selesai. Perbedaan utama hanya terletak pada metode pengerjaan, karena perhitungan manual memerlukan ketelitian dan lebih berisiko terjadi kesalahan, sedangkan simulasi memberikan hasil yang lebih cepat, konsisten, dan efisien, terutama ketika jumlah proses semakin banyak.
+
 
 ### Kelebihan dan Keterbatasan Simulasi
 - **Kelebihan Simulasi**
@@ -222,7 +226,9 @@ Program di atas mensimulasikan algoritma penjadwalan CPU First Come First Served
 ---
 
 ## Kesimpulan
-Tuliskan 2–3 poin kesimpulan dari praktikum ini.
+1. Simulasi algoritma penjadwalan CPU **FCFS** berhasil dijalankan dengan baik dan menghasilkan nilai *waiting time* serta *turnaround time* yang sesuai dengan perhitungan manual, sehingga membuktikan bahwa implementasi program sudah benar.
+2. Penggunaan simulasi mempermudah proses analisis penjadwalan CPU karena perhitungan dilakukan secara otomatis, lebih cepat, dan mengurangi potensi kesalahan dibandingkan perhitungan manual.
+3. Meskipun sederhana, simulasi ini efektif untuk memahami konsep dasar algoritma FCFS, namun masih memiliki keterbatasan karena belum merepresentasikan kondisi sistem operasi secara menyeluruh.
 
 ---
 
