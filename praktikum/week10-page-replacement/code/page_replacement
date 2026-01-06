@@ -1,0 +1,69 @@
+# Reference string dan jumlah frame
+reference_string = [7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2]
+frame_size = 3
+
+# ================= FIFO =================
+def fifo_page_replacement(ref, frame_size):
+    frames = []
+    page_fault = 0
+
+    print("=== FIFO Simulation ===")
+    print("Page | Status | Frames")
+    print("-" * 30)
+
+    for page in ref:
+        if page in frames:
+            status = "HIT"
+        else:
+            status = "FAULT"
+            page_fault += 1
+            if len(frames) < frame_size:
+                frames.append(page)
+            else:
+                frames.pop(0)
+                frames.append(page)
+
+        print(f"{page:^4} | {status:^6} | {frames}")
+
+    print("-" * 30)
+    print(f"Total Page Fault (FIFO): {page_fault}\n")
+    return page_fault
+
+
+# ================= LRU =================
+def lru_page_replacement(ref, frame_size):
+    frames = []
+    page_fault = 0
+
+    print("=== LRU Simulation ===")
+    print("Page | Status | Frames")
+    print("-" * 30)
+
+    for page in ref:
+        if page in frames:
+            status = "HIT"
+            frames.remove(page)
+            frames.append(page)
+        else:
+            status = "FAULT"
+            page_fault += 1
+            if len(frames) < frame_size:
+                frames.append(page)
+            else:
+                frames.pop(0)
+                frames.append(page)
+
+        print(f"{page:^4} | {status:^6} | {frames}")
+
+    print("-" * 30)
+    print(f"Total Page Fault (LRU): {page_fault}\n")
+    return page_fault
+
+
+# ================= MAIN =================
+fifo_fault = fifo_page_replacement(reference_string, frame_size)
+lru_fault = lru_page_replacement(reference_string, frame_size)
+
+print("=== Comparison Result ===")
+print(f"FIFO Page Faults : {fifo_fault}")
+print(f"LRU Page Faults  : {lru_fault}")
