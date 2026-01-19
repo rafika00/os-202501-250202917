@@ -1,42 +1,31 @@
 import time
-import os
 
-memory_blocks = []
-iteration = 0
+data = []
+iterasi = 0
 
-print("=== PROGRAM UJI CPU & MEMORI ===")
-print(f"PID Container : {os.getpid()}")
-print("Program berjalan...\n")
+print("=== Program Uji Resource Docker ===")
+print("Tekan Ctrl+C untuk menghentikan\n")
 
 try:
     while True:
-        iteration += 1
+        # CPU test (total hitung)
+        total = 0
+        for x in range(500_000):
+            total += x
 
-        # ======================
-        # UJI CPU (komputasi berat)
-        # ======================
-        cpu_result = 0
-        for i in range(5_000_000):
-            cpu_result += i % 3
+        # Memory test (5 MB per iterasi)
+        data.append("X" * 5_000_000)
+        iterasi += 1
 
-        # ======================
-        # UJI MEMORI (alokasi bertahap)
-        # ======================
-        memory_blocks.append(bytearray(20 * 1024 * 1024))  # 20 MB
-        allocated_mb = len(memory_blocks) * 20
-
-        print(f"Iterasi {iteration}")
-        print(f"- CPU task selesai (dummy result: {cpu_result})")
-        print(f"- Memori teralokasi: {allocated_mb} MB")
-        print("-" * 40)
+        print(
+            f"Iterasi {iterasi} | Total hitung: {total} | "
+            f"Perkiraan memori: {iterasi * 5} MB"
+        )
 
         time.sleep(1)
 
 except MemoryError:
-    print("\nERROR: Batas memori tercapai (MemoryError)")
+    print("ERROR: Memori tidak cukup! Container terkena limit memori.")
 
 except KeyboardInterrupt:
-    print("\nProgram dihentikan oleh pengguna")
-
-except Exception as e:
-    print(f"\nContainer dihentikan: {e}")
+    print("\nProgram dihentikan manual.")
