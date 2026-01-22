@@ -1,6 +1,6 @@
 
 # Laporan Praktikum Minggu [X]
-Topik: [Tuliskan judul topik, misalnya "Arsitektur Sistem Operasi dan Kernel"]
+Topik:  Proyek Kelompok – Mini Simulasi Sistem Operasi (Scheduling + Memory + Container)
 
 ---
 
@@ -103,89 +103,81 @@ Berikut alur data dari arsitektur aplikasi secara keseluruhan:
    * Jumlah page fault dan kondisi frame memori.
    * Status deadlock (aman atau terjadi deadlock).
 
+## 5.Demo menjalakan aplikasi 
+### 5.1 Demo CPU Scheduling (First Come First Served – FCFS)
+Pada demo ini, algoritma FCFS digunakan untuk menjadwalkan proses berdasarkan urutan kedatangan. Proses yang datang lebih awal akan dieksekusi terlebih dahulu tanpa adanya preemption.
+Hasil eksekusi menampilkan:
+- Urutan proses
+- Burst time masing-masing proses
+- Waiting time yang dihitung berdasarkan proses sebelumnya
+Demo ini menunjukkan kelemahan FCFS, yaitu kemungkinan terjadinya waiting time yang besar jika terdapat proses dengan burst time panjang di awal antrian.
+
+### 5.2 Demo Page Replacement (First In First Out – FIFO)
+
+Algoritma FIFO Page Replacement bekerja dengan cara mengganti halaman yang pertama kali masuk ke dalam frame ketika kapasitas memori penuh.
+
+Pada demo ini ditampilkan:
+- Urutan page reference
+- Isi frame pada setiap iterasi
+- Jumlah total page fault
+Hasil simulasi menunjukkan bagaimana page fault terjadi ketika halaman yang dibutuhkan tidak tersedia di memori utama.
+
+### 5.3 Demo Deadlock Detection
+
+Deadlock detection dilakukan menggunakan konsep Wait-For Graph, di mana:
+- Node merepresentasikan proses
+- Edge merepresentasikan ketergantungan antar proses
+Jika terdapat siklus dalam graph, maka dapat disimpulkan bahwa terjadi deadlock. Demo ini menunjukkan kondisi di mana dua proses saling menunggu resource yang dipegang oleh proses lain.
+
+### 5.4 Implementasi Menggunakan Docker
+
+Seluruh aplikasi dijalankan di dalam container Docker dengan langkah sebagai berikut:
+- Membuat Dockerfile berbasis Python
+- Melakukan build image Docker
+- Menjalankan container secara interaktif
+- Mengeksekusi masing-masing aplikasi simulasi di dalam container
+
 ## 7.Tugas setiap Anggota
 
-Baik, berikut versi **lebih formal dengan penjelasan yang rinci**, cocok untuk **laporan praktikum, laporan proyek kelompok, atau laporan akademik**:
-
----
-
-## Pembagian Peran dan Kontribusi Setiap Anggota
-
-Dalam rangka pelaksanaan tugas kelompok ini, dilakukan pembagian peran dan tanggung jawab kepada setiap anggota agar proses pengerjaan berjalan secara efektif, terstruktur, dan sesuai dengan tujuan yang telah ditetapkan. Pembagian tugas ini juga bertujuan untuk meningkatkan kerja sama tim serta memastikan seluruh bagian tugas dapat diselesaikan dengan baik. Adapun pembagian peran dan kontribusi masing-masing anggota adalah sebagai berikut:
-
-### 1. Anggota 1 – Penanggung Jawab Modul 1
+### 1. Novia Safitri – Penanggung Jawab Modul 1
 
 Anggota 1 bertanggung jawab untuk mengerjakan **Modul 1** sesuai dengan pedoman dan instruksi yang telah diberikan. Tugas ini mencakup pemahaman materi, pengerjaan soal atau studi kasus, serta penyusunan hasil kerja secara sistematis dan terstruktur. Hasil dari Modul 1 kemudian disiapkan untuk dikompilasi ke dalam laporan kelompok.
 
-### 2. Anggota 2 – Penanggung Jawab Modul 2
+### 2. Evelin Natalie – Penanggung Jawab Modul 2
 
 Anggota 2 bertugas mengerjakan **Modul 2** dengan memperhatikan ketentuan dan standar yang telah ditetapkan. Selain menyelesaikan isi modul, anggota ini juga melakukan pengecekan terhadap kelengkapan dan kebenaran hasil pekerjaan sebelum dikumpulkan ke dalam repository proyek kelompok.
 
-### 3. Anggota 3 – Penanggung Jawab Modul 3
+### 3. Nadya Pramudita – Penanggung Jawab Modul 3
 
 Anggota 3 memiliki tanggung jawab untuk mengerjakan **Modul 3** secara menyeluruh dan sesuai dengan panduan yang tersedia. Anggota ini juga memastikan bahwa hasil pengerjaan telah disusun dengan format yang konsisten agar mudah dipahami dan dapat digabungkan dengan modul-modul lainnya dalam laporan akhir.
 
-### 4. Anggota 4 – Penanggung Jawab Dokumentasi (README)
+### 4. Faik Setyawan – Penanggung Jawab Dokumentasi (README)
 
-Anggota 4 bertanggung jawab dalam penyusunan dan pengelolaan dokumentasi proyek pada file **README.md**. Tugas ini meliputi penulisan deskripsi proyek, tujuan pengerjaan, serta ringkasan isi dari setiap modul. Dokumentasi disusun secara jelas dan sistematis agar dapat memberikan gambaran menyeluruh mengenai proyek yang dikerjakan.
+Anggota 4 bertanggung jawab dalam penyusunan dan pengelolaan dokumentasi proyek pada file **README.md** dan **laporan.md**. Tugas ini meliputi penulisan deskripsi proyek, tujuan pengerjaan, serta ringkasan isi dari setiap modul. Dokumentasi disusun secara jelas dan sistematis agar dapat memberikan gambaran menyeluruh mengenai proyek yang dikerjakan.
 
-### 5. Ketua Kelompok – Koordinator dan Pengelola Repository GitHub
+### 5. Rafika Rahma – Koordinator dan Pengelola Repository GitHub
 
-Ketua kelompok berperan sebagai koordinator utama dan pengelola repository GitHub. Tugas ketua meliputi pembuatan **branch** untuk pengumpulan tugas setiap anggota, pengelolaan alur kerja version control, serta melakukan pemeriksaan dan penggabungan (merge) branch ke branch utama (main/master). Selain itu, ketua kelompok juga bertanggung jawab memastikan seluruh kontribusi anggota terdokumentasi dengan baik dan repository berada dalam kondisi rapi serta siap untuk dikumpulkan.
-
-
-
-
-
-
-
-
+Ketua kelompok berperan sebagai koordinator utama dan pengelola repository GitHub. Tugas ketua meliputi pengelolaan branch, pengaturan alur kerja version control, peninjauan serta penggabungan (merge) kontribusi anggota ke branch utama (main/master), pengembangan main.py, dan penyusunan Dockerfile. Ketua kelompok juga memastikan seluruh kontribusi terdokumentasi dengan baik dan repository siap untuk dikumpulkan.
 
 ---
-
-## Langkah Praktikum
-1. Langkah-langkah yang dilakukan.  
-2. Perintah yang dijalankan.  
-3. File dan kode yang dibuat.  
-4. Commit message yang digunakan.
-
----
-
-## Kode / Perintah
-Tuliskan potongan kode atau perintah utama:
-```bash
-uname -a
-lsmod | head
-dmesg | head
-```
-
----
-
-## Hasil Eksekusi
-Sertakan screenshot hasil percobaan atau diagram:
-![Screenshot hasil](screenshots/example.png)
-
----
-
 ## Analisis
-- Jelaskan makna hasil percobaan.  
-- Hubungkan hasil dengan teori (fungsi kernel, system call, arsitektur OS).  
-- Apa perbedaan hasil di lingkungan OS berbeda (Linux vs Windows)?  
 
 ---
-
 ## Kesimpulan
-Tuliskan 2–3 poin kesimpulan dari praktikum ini.
 
 ---
 
-## Quiz
-1. [Pertanyaan 1]  
-   **Jawaban:**  
-2. [Pertanyaan 2]  
-   **Jawaban:**  
-3. [Pertanyaan 3]  
-   **Jawaban:**  
+### Tugas & Quiz
+#### Tugas
+1. Implementasikan proyek sesuai spesifikasi (minimal 2 modul).
+2. Sediakan dataset contoh dan dokumentasi run (`code/README.md`).
+3. Buat `Dockerfile` dan pastikan demo berjalan.
+4. Tulis laporan proyek pada `laporan.md`.
+
+#### Quiz (jawab di laporan)
+1. Tantangan terbesar integrasi modul apa, dan bagaimana solusinya?
+2. Mengapa Docker membantu proses demo dan penilaian proyek?
+3. Jika dataset diperbesar 10x, modul mana yang paling terdampak performanya? Jelaskan.
 
 ---
 
