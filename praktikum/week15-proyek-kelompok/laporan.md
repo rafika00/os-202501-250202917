@@ -8,8 +8,8 @@ Topik:  Proyek Kelompok – Mini Simulasi Sistem Operasi (Scheduling + Memory + 
 1. Faik Setyawan (250202936)
 2. Evelin Natalie (250202916)
 3. Nadya Pramudita (250202956)
-4. Rafika Rahma (2502029
-5. Novia Safitri (2502029
+4. Rafika Rahma (250202917)
+5. Novia Safitri (250202923)
 
 ---
 
@@ -34,9 +34,6 @@ Setelah menyelesaikan proyek ini, mahasiswa mampu:
 3. Mengelola proyek menggunakan Git (branch/PR/commit yang rapi).
 4. Menyusun dokumentasi dan laporan proyek yang sistematis.
 5. Melakukan presentasi dan demo hasil proyek.
-
----
-Berikut **bagian Arsitektur Aplikasi** yang menjelaskan **CPU Scheduling (FCFS), Page Replacement (FIFO), dan Deadlock Detection**, disusun dengan gaya **laporan/makalah Sistem Operasi** dan saling terintegrasi:
 
 ---
 
@@ -66,78 +63,245 @@ Ketiga modul dalam arsitektur aplikasi ini saling berinteraksi:
 
 Integrasi ini memungkinkan sistem untuk menjalankan simulasi sistem operasi secara menyeluruh, mulai dari penjadwalan proses, pengelolaan memori, hingga pengendalian konflik sumber daya. Dengan arsitektur seperti ini, aplikasi mampu memberikan gambaran nyata tentang cara kerja sistem operasi dalam mengelola sumber daya secara efektif.
 
-
-
 ## 4. Alur Data (Data Flow)
 
-Berikut alur data dari arsitektur aplikasi secara keseluruhan:
+Alur data dalam aplikasi berjalan secara terstruktur sebagai berikut:
 
-1. **Input Data**
+### a. Input Data
 
-   * Data proses dimasukkan ke sistem (arrival time, burst time).
-   * Data referensi halaman dimasukkan untuk simulasi memori.
-   * Data alokasi dan permintaan sumber daya dimasukkan untuk deteksi deadlock.
+* Data proses untuk CPU Scheduling dimasukkan melalui kode atau input pengguna
+* Data antrian FIFO ditulis dan dibaca dari file `fifo.txt`
+* Data resource deadlock didefinisikan dalam struktur data (dictionary)
 
-2. **Proses CPU Scheduling**
 
-   * Data proses masuk ke Ready Queue.
-   * CPU mengeksekusi proses berdasarkan urutan FCFS.
-   * Hasil eksekusi dikirim ke modul laporan.
+### b. Proses
 
-3. **Manajemen Memori (Page Replacement FIFO)**
+1. Pengguna memilih modul melalui menu CLI.
+2. `main.py` memanggil modul yang sesuai.
+3. Modul memproses data berdasarkan algoritma masing-masing:
 
-   * Proses yang berjalan mengakses halaman memori.
-   * Jika terjadi *page fault*, data dikirim ke modul FIFO.
-   * Modul FIFO menentukan halaman yang diganti.
-   * Status memori diperbarui dan dikirim kembali ke sistem.
+   * FCFS → menghitung WT dan TAT
+   * FIFO → menambah/menghapus data dari file
+   * Deadlock → mendeteksi circular wait
+4. Hasil pemrosesan dikirim kembali ke `main.py`.
 
-4. **Deadlock Detection**
 
-   * Sistem mencatat penggunaan dan permintaan sumber daya.
-   * Modul Deadlock Detection menganalisis matriks alokasi.
-   * Jika deadlock terdeteksi, status dikirim ke sistem untuk ditangani.
+### c. Output
 
-5. **Output**
+* Hasil simulasi ditampilkan langsung di terminal:
 
-   * Hasil CPU Scheduling (urutan eksekusi, waiting time).
-   * Jumlah page fault dan kondisi frame memori.
-   * Status deadlock (aman atau terjadi deadlock).
+  * Tabel CPU Scheduling
+  * Status antrian FIFO
+  * Informasi deadlock (terdeteksi atau tidak)
 
-## 5.Demo menjalakan aplikasi 
-### 5.1 Demo CPU Scheduling (First Come First Served – FCFS)
-Pada demo ini, algoritma FCFS digunakan untuk menjadwalkan proses berdasarkan urutan kedatangan. Proses yang datang lebih awal akan dieksekusi terlebih dahulu tanpa adanya preemption.
-Hasil eksekusi menampilkan:
-- Urutan proses
-- Burst time masing-masing proses
-- Waiting time yang dihitung berdasarkan proses sebelumnya
-Demo ini menunjukkan kelemahan FCFS, yaitu kemungkinan terjadinya waiting time yang besar jika terdapat proses dengan burst time panjang di awal antrian.
 
-### 5.2 Demo Page Replacement (First In First Out – FIFO)
+### 3. Integrasi dengan Docker
 
-Algoritma FIFO Page Replacement bekerja dengan cara mengganti halaman yang pertama kali masuk ke dalam frame ketika kapasitas memori penuh.
+Seluruh arsitektur aplikasi dijalankan di dalam **Docker container**, sehingga:
 
-Pada demo ini ditampilkan:
-- Urutan page reference
-- Isi frame pada setiap iterasi
-- Jumlah total page fault
-Hasil simulasi menunjukkan bagaimana page fault terjadi ketika halaman yang dibutuhkan tidak tersedia di memori utama.
+* Alur data dan modul berjalan dalam lingkungan terisolasi
+* Tidak bergantung pada sistem operasi host
+* Aplikasi dapat dijalankan secara konsisten di berbagai perangkat
 
-### 5.3 Demo Deadlock Detection
+--- 
 
-Deadlock detection dilakukan menggunakan konsep Wait-For Graph, di mana:
-- Node merepresentasikan proses
-- Edge merepresentasikan ketergantungan antar proses
-Jika terdapat siklus dalam graph, maka dapat disimpulkan bahwa terjadi deadlock. Demo ini menunjukkan kondisi di mana dua proses saling menunggu resource yang dipegang oleh proses lain.
+## 5. Demo Langsung Menjalankan Aplikasi Menggunakan Docker
 
-### 5.4 Implementasi Menggunakan Docker
+Demo aplikasi dilakukan dengan menjalankan seluruh program simulasi sistem operasi di dalam **container Docker**. Aplikasi ditulis menggunakan bahasa **Python** dan terdiri dari beberapa modul, yaitu **CPU Scheduling (FCFS)**, **Page Replacement FIFO**, dan **Deadlock Detection**, yang dapat dijalankan melalui **menu/CLI** pada file utama (`main.py`).
 
-Seluruh aplikasi dijalankan di dalam container Docker dengan langkah sebagai berikut:
-- Membuat Dockerfile berbasis Python
-- Melakukan build image Docker
-- Menjalankan container secara interaktif
-- Mengeksekusi masing-masing aplikasi simulasi di dalam container
+### 1. Proses Build Docker Image
+
+Berdasarkan file `Dockerfile` yang telah dibuat, image Docker dibangun menggunakan base image Python. Dockerfile berfungsi untuk:
+
+* Menentukan environment Python yang digunakan
+* Menyalin seluruh source code ke dalam container
+* Menjalankan aplikasi utama secara otomatis
+
+Perintah build yang digunakan:
+
+```bash
+docker build -t week15-proyek-kelompok .
+```
+
+Perintah ini akan menghasilkan image bernama `week15-proyek-kelompok .` yang berisi seluruh kode simulasi beserta dependensinya.
+
+
+### 2. Menjalankan Container Docker
+
+Setelah image berhasil dibuat, container dijalankan secara interaktif agar pengguna dapat memilih menu simulasi:
+
+```bash
+docker run -it week15-proyek-kelompok 
+```
+
+Mode `-it` digunakan agar input dari keyboard dapat diterima oleh aplikasi CLI di dalam container.
+
+
+### 3. Demo CPU Scheduling – FCFS
+
+Saat memilih menu **CPU Scheduling FCFS**, program akan:
+
+* Membaca dataset proses (arrival time dan burst time)
+* Mengurutkan proses berdasarkan waktu kedatangan
+* Mengeksekusi proses satu per satu tanpa preemption
+* Menghitung **Waiting Time (WT)** dan **Turnaround Time (TAT)**
+
+Hasil ditampilkan dalam bentuk tabel, sesuai dengan logika pada kode FCFS yang menghitung waktu tunggu berdasarkan akumulasi burst time proses sebelumnya. Demo ini menunjukkan secara nyata efek **convoy effect**, terutama ketika proses dengan burst time besar berada di awal antrian.
+
+---
+
+### 4. Demo Page Replacement FIFO (Berbasis File)
+
+Pada modul **Page Replacement FIFO**, simulasi dijalankan menggunakan file `fifo.txt` sebagai media antrian, sesuai dengan coding yang telah dibuat.
+
+Alur kerja program:
+
+* Pasien/proses ditambahkan ke file `fifo.txt` (enqueue)
+* Pemanggilan dilakukan dengan membaca baris pertama file (dequeue)
+* Setelah dipanggil, baris pertama dihapus dari file
+* Jika file kosong, program menampilkan pesan bahwa antrian kosong
+
+Pendekatan ini menyerupai **mekanisme queue pada sistem operasi**, di mana struktur FIFO diterapkan secara nyata menggunakan file sebagai penyimpanan data.
+
+### 5. Demo Deadlock Detection
+
+Modul **Deadlock Detection** mensimulasikan kondisi deadlock menggunakan konsep **circular wait**:
+
+* Setiap proses (mobil) memegang satu resource (jalan)
+* Setiap proses menunggu resource lain yang sedang dipegang proses berbeda
+* Program mendeteksi adanya siklus dalam relasi menunggu
+
+Berdasarkan struktur data yang digunakan pada kode, sistem berhasil mengidentifikasi bahwa seluruh kondisi deadlock terpenuhi, sehingga disimpulkan bahwa terjadi deadlock.
+
+
+---
+
+
+## 6.Analisis dan Hasil uji
+### 6.1 cpu_scheduling
+![WhatsApp Image 2026-01-25 at 20 37 39](https://github.com/user-attachments/assets/e9813c31-0565-4aa2-940e-67e17b3842a4)
+
+tabel hasil simulasi 
+| Proses | Datang | Pelayanan | Waktu Menunggu (WT) | Turnaround Time (TAT) |
+| ------ | ------ | --------- | ------------------- | --------------------- |
+| F1     | 0      | 12        | 0                   | 12                    |
+| F2     | 1      | 1         | 11                  | 12                    |
+| F3     | 2      | 30        | 11                  | 41                    |
+| F4     | 3      | 3         | 40                  | 43                    |
+| F5     | 4      | 70        | 41                  | 111                   |
+
+Analisis
+
+1. **Proses awal (F1)**
+   * Datang pertama dan langsung diproses.
+   * Tidak mengalami waktu menunggu (WT = 0).
+   * Cocok menggambarkan prinsip dasar FCFS.
+
+2. **Efek Convoy Effect**
+   * Proses **F3 (30 detik)** dan terutama **F5 (70 detik)** menyebabkan proses berikutnya menunggu sangat lama.
+   * F4 dan F5 mengalami waktu menunggu tinggi (40 dan 41).
+
+3. **Ketidakadilan untuk proses pendek**
+   * F2 dan F4 memiliki waktu pelayanan kecil, tetapi harus menunggu lama karena proses sebelumnya panjang.
+   * Ini menunjukkan FCFS **kurang optimal untuk sistem dengan variasi burst time besar**.
+
+4. **Kelebihan FCFS**
+   * Implementasi sederhana
+   * Tidak menyebabkan starvation
+   * Cocok untuk sistem batch sederhana
+
+5. **Kekurangan FCFS**
+   * Rata-rata waktu tunggu tinggi
+   * Tidak efisien untuk sistem interaktif
+   * Sangat dipengaruhi oleh urutan kedatangan
+
+## 6.2 deadlock_detection
+![WhatsApp Image 2026-01-25 at 20 38 26](https://github.com/user-attachments/assets/68584d90-05f6-4f37-8023-0c93e4e51fce)
+
+tabel hasil simulasi 
+| Mobil | Memegang Jalan | Menunggu Jalan |
+| ----- | -------------- | -------------- |
+| A     | Utara          | Timur          |
+| B     | Timur          | Selatan        |
+| C     | Selatan        | Barat          |
+| D     | Barat          | Utara          |
+
+analisis
+1. Terbentuk Circular Wait
+
+Terjadi rantai menunggu melingkar** sebagai berikut:
+
+* Mobil A menunggu jalan **Timur** (dipegang B)
+* Mobil B menunggu jalan **Selatan** (dipegang C)
+* Mobil C menunggu jalan **Barat** (dipegang D)
+* Mobil D menunggu jalan **Utara** (dipegang A)
+
+Tidak ada satu pun mobil yang dapat melanjutkan perjalanan.
+
+2. Empat Kondisi Deadlock Terpenuhi
+
+Simulasi ini memenuhi seluruh syarat deadlock dalam sistem operasi:
+
+| Kondisi Deadlock | Terpenuhi | Penjelasan                                           |
+| ---------------- | --------- | ---------------------------------------------------- |
+| Mutual Exclusion | ✅        | Setiap jalan hanya bisa dipakai satu mobil           |
+| Hold and Wait    | ✅        | Mobil memegang satu jalan sambil menunggu jalan lain |
+| No Preemption    | ✅        | Jalan tidak bisa direbut paksa                       |
+| Circular Wait    | ✅        | Terjadi siklus A → B → C → D → A                     |
+
+
+## 6.3 Page_replacement
+![WhatsApp Image 2026-01-25 at 20 38 09](https://github.com/user-attachments/assets/932c6908-289e-44ab-81e0-f42beedb39d7)
+
+tabel hasil simulasi 
+| Langkah | Aksi           | Pasien | Isi Antrian Setelah Aksi |
+| ------- | -------------- | ------ | ------------------------ |
+| 1       | Ambil Nomor    | Andi   | Andi                     |
+| 2       | Ambil Nomor    | Budi   | Andi, Budi               |
+| 3       | Ambil Nomor    | Citra  | Andi, Budi, Citra        |
+| 4       | Panggil Pasien | Andi   | Budi, Citra              |
+| 5       | Panggil Pasien | Budi   | Citra                    |
+| 6       | Panggil Pasien | Citra  | (kosong)                 |
+| 7       | Panggil Pasien | –      | (kosong)                 |
+
+Analisis 
+1. Prinsip FIFO Berjalan dengan Benar
+
+Program menerapkan **First In First Out**, dibuktikan dengan:
+* Andi dipanggil pertama karena datang lebih dulu
+* Diikuti Budi, lalu Citra
+
+2. Mekanisme File sebagai Queue
+* File `fifo.txt` berfungsi sebagai **media penyimpanan antrian**
+* Baris pertama selalu menjadi pasien yang dipanggil
+* Setelah dipanggil, baris tersebut dihapus (shift queue)
+
+Ini menyerupai **queue pada sistem operasi**.
+
+### 3. Penanganan Kondisi Kosong
+
+Saat pemanggilan ke-4:
+* File sudah kosong
+* Program menampilkan pesan:
+
+  > *"Tidak ada pasien dalam antrian."*
+
+Hal ini menunjukkan **error handling berjalan dengan baik**.
 
 ## 7.Tugas setiap Anggota
+
+| NIM | Nama | Peran | Kontribusi |
+| :---: | :---: | :---: | :---: |
+| 250202917 | Rafika Rahma | Project Lead/Integrator| - Inisiasi project (merancang struktur awal dan main.py) <br> - merge PR & fix conflict <br> - Uji modul aplikasi  |
+| 250202923 | Novia Safitri  | Developer 1 (Modul CPU Scheduling) | - Merancang modul aplikasi CPU Scheduling <br> - Membuat dataset process.csv <br> - Analisis eksekusi aplikasi | 
+| 250202946 | Evelin Natalie | Developer 2 (Modul Page Replacement) | - Merancang modul aplikasi Page Replacement (FIFO) <br> - Membuat dataset reference_string.txt <br> - Analisis eksekusi aplikasi |
+| 250202956 | Nadya Pramudita | Developer 3 (Deadlock Detection) | - Merancang modul apllikasi Deadlock Detection <br> - Membuat dataset.csv <br> - Analisis eksekusi aplikasi |
+| 250202936 | Faik setyawan | Dokumentasi & QA | - Menyusun laporan proyek <br> - Mengumpulkan dokumentasi eksekusi (screenshots) <br> - Menyelesaikan quiz |
+--- 
+
+
+
+
 
 ### 1. Novia Safitri – Penanggung Jawab Modul 1
 
@@ -160,12 +324,6 @@ Anggota 4 bertanggung jawab dalam penyusunan dan pengelolaan dokumentasi proyek 
 Ketua kelompok berperan sebagai koordinator utama dan pengelola repository GitHub. Tugas ketua meliputi pengelolaan branch, pengaturan alur kerja version control, peninjauan serta penggabungan (merge) kontribusi anggota ke branch utama (main/master), pengembangan main.py, dan penyusunan Dockerfile. Ketua kelompok juga memastikan seluruh kontribusi terdokumentasi dengan baik dan repository siap untuk dikumpulkan.
 
 ---
-## Analisis
-
----
-## Kesimpulan
-
----
 
 ### Tugas & Quiz
 #### Tugas
@@ -174,10 +332,55 @@ Ketua kelompok berperan sebagai koordinator utama dan pengelola repository GitHu
 3. Buat `Dockerfile` dan pastikan demo berjalan.
 4. Tulis laporan proyek pada `laporan.md`.
 
-#### Quiz (jawab di laporan)
+#### Quiz
 1. Tantangan terbesar integrasi modul apa, dan bagaimana solusinya?
+
+Tantangan terbesar dalam integrasi modul adalah **menyatukan tiga konsep sistem operasi yang berbeda (CPU Scheduling, Page Replacement, dan Deadlock Detection)** ke dalam satu alur aplikasi yang konsisten. Setiap modul memiliki input, proses, dan output yang berbeda, sehingga berpotensi menimbulkan ketidaksesuaian format data dan alur eksekusi.
+
+**Solusi yang dilakukan:**
+
+* Mendesain **alur program yang modular**, di mana setiap modul berdiri sendiri namun dapat dipanggil dari satu *main program*.
+* Menyamakan format input dan output (misalnya menggunakan struktur data sederhana seperti list, dictionary, dan tabel).
+* Menggunakan **menu/CLI** agar pengguna dapat menjalankan modul secara terpisah tanpa saling mengganggu.
+* Melakukan pengujian tiap modul secara individual sebelum digabungkan ke dalam container Docker.
+
+
 2. Mengapa Docker membantu proses demo dan penilaian proyek?
+
+Docker sangat membantu karena mampu menyediakan **lingkungan eksekusi yang konsisten dan terisolasi**. Dengan Docker, aplikasi dapat dijalankan tanpa bergantung pada konfigurasi sistem operasi host.
+
+Manfaat utama penggunaan Docker dalam proyek ini:
+
+* **Konsistensi lingkungan**: Aplikasi berjalan sama di komputer pengembang maupun penguji.
+* **Kemudahan demo**: Dosen atau penguji cukup melakukan `docker build` dan `docker run` tanpa instalasi tambahan.
+* **Isolasi sistem**: Tidak mengganggu sistem utama pengguna.
+* **Reproducibility**: Hasil simulasi dapat direplikasi dengan mudah.
+
+Dengan demikian, Docker mempermudah proses demonstrasi, evaluasi, dan penilaian proyek.
+
+
 3. Jika dataset diperbesar 10x, modul mana yang paling terdampak performanya? Jelaskan.
+
+Modul yang **paling terdampak performanya** jika dataset diperbesar 10x adalah **CPU Scheduling (FCFS)** dan **Page Replacement (FIFO)**, dengan dampak terbesar pada **CPU Scheduling FCFS**.
+
+Penjelasan:
+
+* **CPU Scheduling FCFS**:
+
+  * Semakin banyak proses, semakin panjang *waiting time*.
+  * Proses dengan burst time besar di awal akan memperparah **convoy effect**.
+  * Waktu simulasi dan perhitungan meningkat secara signifikan.
+
+* **Page Replacement FIFO**:
+
+  * Jumlah page reference yang meningkat akan menyebabkan **page fault lebih sering**.
+  * Pengelolaan antrian frame menjadi lebih berat, meskipun masih relatif sederhana.
+
+* **Deadlock Detection**:
+
+  * Dampaknya relatif lebih kecil dibanding dua modul lainnya.
+  * Namun, jika jumlah proses dan resource meningkat drastis, pemeriksaan siklus juga akan membutuhkan waktu lebih lama.
+
 
 ---
 
