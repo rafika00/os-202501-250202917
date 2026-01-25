@@ -62,7 +62,7 @@ Aplikasi dikembangkan menggunakan **Python** dan dapat dijalankan baik secara la
 code/
 ├─ data/
 │  ├─ process.csv
-│  ├─ reference_string.txt
+│  ├─ fifo.txt
 │  └─ dataset.csv
 ├─ cpu_scheduling.py
 ├─ page_replacement.py
