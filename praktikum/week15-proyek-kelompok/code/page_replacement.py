@@ -53,34 +53,4 @@ def main():
 
 # Bisa dijalankan langsung atau lewat Docker
 if __name__ == "__main__":
-    main()import os
-
-
-        with open(FILE_ANTRIAN, "w", encoding="utf-8") as file:
-            file.writelines(data[1:])
-
-        print(f"Pasien {pasien} dipanggil untuk pemeriksaan.")
-
-    except FileNotFoundError:
-        print("File antrian belum tersedia.")
-
-
-# ====== ENTRY POINT UNTUK main.py ======
-def main():
-    # Reset antrian agar output konsisten
-    open(FILE_ANTRIAN, "w").close()
-
-    ambil_nomor("Andi")
-    ambil_nomor("Budi")
-    ambil_nomor("Citra")
-
-    panggil_pasien()
-    panggil_pasien()
-    panggil_pasien()
-    panggil_pasien()
-
-
-# Bisa dijalankan langsung atau lewat Docker
-if __name__ == "__main__":
     main()
-
